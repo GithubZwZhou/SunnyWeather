@@ -2,22 +2,19 @@ package com.sunnyweather.android.ui.place
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.sunnyweather.android.MainActivity
 import com.sunnyweather.android.R
-import com.sunnyweather.android.SunnyWeatherApplication
-import com.sunnyweather.android.logic.Repository
+import com.sunnyweather.android.logic.model.Place
 import com.sunnyweather.android.ui.weather.WeatherActivity
 import com.sunnyweather.android.util.makeToast
 
@@ -27,7 +24,7 @@ class PlaceFragment: Fragment() {
         const val TAG = "PlaceFragment"
     }
 
-    val viewModel by lazy {
+    private val viewModel by lazy {
         ViewModelProvider(this).get(PlaceViewModel::class.java)
     }
 
@@ -41,7 +38,7 @@ class PlaceFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if (viewModel.isPlaceSaved()) {
+        if (activity is MainActivity && viewModel.isPlaceSaved()) {
             val place = viewModel.getSavedPlace()
             val intent = Intent(context, WeatherActivity::class.java).apply {
                 putExtra("location_lng", place.location.lng)
@@ -91,5 +88,12 @@ class PlaceFragment: Fragment() {
                 result.exceptionOrNull()?.printStackTrace()
             }
         }
+    }
+
+    /**
+     * 保存城市地址
+     */
+    fun savePlace(place: Place) {
+        viewModel.savePlace(place)
     }
 }
