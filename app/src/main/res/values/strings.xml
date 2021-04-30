@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">SunnyWeather</string>
+    <string name="enter_location">输入地址</string>
+    <string name="bar">|</string>
+    <string name="forecast">预报</string>
+</resources>
